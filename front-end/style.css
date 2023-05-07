@@ -1,0 +1,44 @@
+/*
+#aa1f2b
+#222852
+#cfd8dc
+#e5eef6
+*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    list-style: none;
+}
+
+
+body {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e5eef6;
+    color: #222852;
+}
+
+.agenda {
+    background-color: #cfd8dc;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 70vh;
+    width: 100vh;
+    border-radius: 50px;
+}
+
+.dia {
+    display: grid;
+    font-size: 2.4rem;  
+}
+
+.dia span {
+    margin: 1.5rem 0 1.5rem 0;
+}
+

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+    <title>LW BarberShop</title>
+</head>
+<body>
+    <main id="container">
+        <div class="agenda">
+            <div class="dia">
+                <button onclick="goPreviousDate()" class="previous">Previous</button>
+                <span><Strong id="previousDay"></Strong> de <Strong id="previousDayMonth"></Strong></span>
+                <span><Strong id="actualDay"></Strong> de <Strong id="actualDayMonth"></Strong></span>
+                <span><Strong id="nextDay"></Strong> de <Strong id="nextDayMonth"></Strong></span>
+                <button onclick="goNextDate()" class="next">Next</button>
+            </div>
+        </div>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
