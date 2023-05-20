@@ -30,34 +30,45 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 70vh;
-    width: 100vh;
+    height: 26rem;
+    width: 52rem;
     border-radius: 50px;
 }
 
 .dia {
     display: grid;
+    align-items: center;
     width: 30%;
     height: 75%;
-    font-size: 2.4rem;  
+    font-size: 2rem;
 }
 
 .dia span {
     margin: 1.5rem 0 1.5rem 0;
+    padding-left: 2.7rem;
 }
 
 .actualDay {
     background-color: #93969D;
+    height: 5rem;
     color: #aa1f2b;
+    border-radius: 10px 0 0 10px;
+    padding-top: 1.2rem;
 }
 
 .hoursAndCustomers {
     display: flex;
     width: 60%;
+    height: 90%;
     background-color: #93969D;
     color: #aa1f2b;
     font-size: 1.7rem;
     justify-content: space-around;
+    border-radius: 10px;
+}
+
+.hoursAndCustomers span {
+    padding: 0.3rem;
 }
 
 .hours {
@@ -68,8 +79,28 @@ body {
     display: grid;
 } 
 
+#arrowUp {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    background: transparent;
+    border: solid #222852;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    transform: rotate(-135deg);
+    cursor: pointer;
+    translate: 100px -60px;
+}
 
-
-.hoursAndCustomers span {
-    padding: 0.3rem;
+#arrowDown {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    background: transparent;
+    border: solid #222852;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    transform: rotate(45deg);
+    translate: 100px 60px;
+    cursor: pointer;
 }
