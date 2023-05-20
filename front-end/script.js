@@ -6,21 +6,33 @@ previousDate.setDate(actualDate.getDate() - 1);
 var nextDate = new Date(actualDate);
 nextDate.setDate(actualDate.getDate() + 1);
 
-document.getElementById("previousDay").innerHTML = previousDate.getDate();
-document.getElementById('previousDayMonth').innerHTML = monName[previousDate.getMonth()];
-document.getElementById("actualDay").innerHTML = actualDate.getDate();
-document.getElementById('actualDayMonth').innerHTML = monName[actualDate.getMonth()];
-document.getElementById("nextDay").innerHTML = nextDate.getDate();
-document.getElementById('nextDayMonth').innerHTML = monName[nextDate.getMonth()];
-
 app()
 
+function updateDates() {
+    document.getElementById("previousDay").innerHTML = previousDate.getDate();
+    document.getElementById('previousDayMonth').innerHTML = monName[previousDate.getMonth()];
+    document.getElementById("actualDay").innerHTML = actualDate.getDate();
+    document.getElementById('actualDayMonth').innerHTML = monName[actualDate.getMonth()];
+    document.getElementById("nextDay").innerHTML = nextDate.getDate();
+    document.getElementById('nextDayMonth').innerHTML = monName[nextDate.getMonth()];
+}
+
 function goPreviousDate() {
-    console.log("Data Anterior");
+    actualDate = previousDate;
+    previousDate = new Date(actualDate);
+    previousDate.setDate(actualDate.getDate() - 1);
+    nextDate = new Date(actualDate);
+    nextDate.setDate(actualDate.getDate() + 1);
+    updateDates();
 }
 
 function goNextDate() {
-    console.log("Proxima Data");
+    actualDate = nextDate;
+    previousDate = new Date(actualDate);
+    previousDate.setDate(actualDate.getDate() - 1);
+    nextDate = new Date(actualDate);
+    nextDate.setDate(actualDate.getDate() + 1);
+    updateDates();
 }
 
 function listarClientes(){
@@ -29,6 +41,7 @@ function listarClientes(){
 }
 
 function app() {
+    updateDates();
     console.log('App iniciado')
     listarClientes()
 }
