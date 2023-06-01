@@ -35,7 +35,7 @@ body {
     border-radius: 50px;
 }
 
-.dia {
+.day {
     display: grid;
     align-items: center;
     width: 30%;
@@ -43,7 +43,7 @@ body {
     font-size: 2rem;
 }
 
-.dia span {
+.day span {
     margin: 1.5rem 0 1.5rem 0;
     padding-left: 2.7rem;
 }
@@ -72,12 +72,25 @@ body {
 }
 
 .hours {
-    display: grid;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 20%;
 }
 
 .customers {
     display: grid;
-} 
+    width: 70%;
+}
+
+.editButtons {
+    display: grid;
+}
+
+.deleteButtons {
+    display: grid;
+}
 
 #arrowUp {
     position: absolute;
