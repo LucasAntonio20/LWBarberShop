@@ -6,7 +6,9 @@ previousDate.setDate(actualDate.getDate() - 1);
 var nextDate = new Date(actualDate);
 nextDate.setDate(actualDate.getDate() + 1);
 
-app()
+var actualDaySchedules;
+
+app();
 
 function updateDates() {
     document.getElementById("previousDay").innerHTML = previousDate.getDate();
@@ -38,7 +40,7 @@ function goNextDate() {
 }
 
 function getListToday(list) {
-    let otherList = [null, null, null, null, null, null, null, null];
+    actualDaySchedules = [null, null, null, null, null, null, null, null];
     list.forEach(e => {
         let hour = e.hour;
         if (hour < 10) {
@@ -48,34 +50,33 @@ function getListToday(list) {
         }
         switch (e.hour) {
             case "08:00":
-                otherList[0] = e;
+                actualDaySchedules[0] = e;
                 break;
             case "09:00":
-                otherList[1] = e;
+                actualDaySchedules[1] = e;
                 break;
             case "10:00":
-                otherList[2] = e;
+                actualDaySchedules[2] = e;
                 break;
             case "11:00":
-                otherList[3] = e;
+                actualDaySchedules[3] = e;
                 break;
             case "14:00":
-                otherList[4] = e;
+                actualDaySchedules[4] = e;
                 break;
             case "15:00":
-                otherList[5] = e;
+                actualDaySchedules[5] = e;
                 break;
             case "16:00":
-                otherList[6] = e;
+                actualDaySchedules[6] = e;
                 break;
             case "17:00":
-                otherList[7] = e;
+                actualDaySchedules[7] = e;
                 break;
             default:
                 break;
         }
     });
-    return otherList;
 }
 
 function getScheduleByDate() {
@@ -95,10 +96,10 @@ function getScheduleByDate() {
     axios.get(url)
         .then(response => {
             let data = response.data;
-            let list = getListToday(data);
+            getListToday(data);
 
-            for (let i = 0; i < list.length; i++) {
-                const e = list[i];
+            for (let i = 0; i < actualDaySchedules.length; i++) {
+                const e = actualDaySchedules[i];
                 if (e == null) {
                     document.getElementById(i).innerHTML = "Vazio";
                 } else {
@@ -108,6 +109,28 @@ function getScheduleByDate() {
             }
         )
         .catch(error => console.error(error));
+}
+
+function getIdCustomer(position) {
+    axios.get(url)
+    .then(response => {
+        let data = response.data;
+        let list = getListToday(data);
+        return list[position].id;
+        }
+    )
+    .catch(error => console.error(error));
+}
+
+function deleteSchedule(position) {
+    axios.delete('http://127.0.0.1:8000/schedules/' + actualDaySchedules[position].id)
+  .then(response => {
+    console.log(response.data.message);
+    getScheduleByDate();
+  })
+  .catch(error => {
+    console.error(error);
+  });
 }
 
 function app() {
