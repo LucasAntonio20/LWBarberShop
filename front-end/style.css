@@ -86,10 +86,17 @@ body {
 
 .editButtons {
     display: grid;
+    width: 10%;
+    align-items: center;
+    justify-items: center;
+    justify-content: end;
 }
 
 .deleteButtons {
     display: grid;
+    align-items: center;
+    justify-items: center;
+    width: 10%;
 }
 
 #arrowUp {
@@ -115,5 +122,17 @@ body {
     display: inline-block;
     transform: rotate(45deg);
     translate: 100px 60px;
+    cursor: pointer;
+}
+
+#delete  {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+#edit {
+    background: transparent;
+    border: none;
     cursor: pointer;
 }
