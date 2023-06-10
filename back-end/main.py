@@ -1,5 +1,5 @@
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, Field as PydanticField
 from sqlmodel import SQLModel, Session, create_engine, select, Field
 from typing import List, Optional
 from uuid import uuid4
@@ -24,7 +24,7 @@ app.add_middleware(
 class ScheduleBase(BaseModel):
     customer: str
     date: str
-    hour: int
+    hour: str = PydanticField(..., regex=r"^\d{2}:\d{2}$", description="Hora no formato brasileiro: HH:MM")
 
 
 class Schedule(ScheduleBase, SQLModel, table=True):
