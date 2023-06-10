@@ -48,6 +48,7 @@ function getListToday(list) {
         } else {
             e.hour = hour + ":00"
         }
+
         switch (e.hour) {
             case "08:00":
                 actualDaySchedules[0] = e;
@@ -79,6 +80,43 @@ function getListToday(list) {
     });
 }
 
+var modal = document.getElementById("myModal");
+
+    function openModal() {
+      modal.style.display = "block";
+    }
+
+    function closeModal() {
+      modal.style.display = "none";
+    }
+
+    function isValidName(name) {
+        if (name.trim().length <= 0) return false;
+        return true;
+      }
+
+    function submitName() {
+      var name = document.getElementById("nameInput").value;
+      if (!isValidName(name)) {
+        alert ("Nome inválido");
+      } else {
+        alert("Cliente " + name + " foi adicionado com sucesso!");
+      }
+      closeModal();
+    }
+
+function refreshTodaySchedulesList() {
+    for (let i = 0; i < actualDaySchedules.length; i++) {
+        const e = actualDaySchedules[i];
+        if (e == null) {
+            document.getElementById(i).innerHTML = "Vazio";
+        } else {
+            document.getElementById(i).innerHTML = e.customer;
+        }
+    }
+}
+
+//API FUNCTIONS
 function getScheduleByDate() {
     let day = actualDate.getDate().toString();
     if (day.length == 1) {
@@ -95,40 +133,20 @@ function getScheduleByDate() {
 
     axios.get(url)
         .then(response => {
-            let data = response.data;
-            getListToday(data);
-
-            for (let i = 0; i < actualDaySchedules.length; i++) {
-                const e = actualDaySchedules[i];
-                if (e == null) {
-                    document.getElementById(i).innerHTML = "Vazio";
-                } else {
-                    document.getElementById(i).innerHTML = e.customer;
-                }
-            }
-            }
-        )
-        .catch(error => console.error(error));
-}
-
-function getIdCustomer(position) {
-    axios.get(url)
-    .then(response => {
-        let data = response.data;
-        let list = getListToday(data);
-        return list[position].id;
-        }
-    )
-    .catch(error => console.error(error));
+         getListToday(response.data);
+         refreshTodaySchedulesList();   
+        }).catch(error => {
+            actualDaySchedules = [null, null, null, null, null, null, null, null];
+            refreshTodaySchedulesList();
+        });
 }
 
 function deleteSchedule(position) {
     axios.delete('http://127.0.0.1:8000/schedules/' + actualDaySchedules[position].id)
-  .then(response => {
-    console.log(response.data.message);
+  .then(x => { 
+    alert("O cliente foi removido com sucesso!");
     getScheduleByDate();
-  })
-  .catch(error => {
+  }).catch(error => {
     console.error(error);
   });
 }

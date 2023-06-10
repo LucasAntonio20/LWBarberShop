@@ -32,17 +32,17 @@
                     <span>17:00</span>
                 </div>
                 <div class="customers">
-                    <span id="0"></span>
-                    <span id="1"></span>
-                    <span id="2"></span>
-                    <span id="3"></span>
-                    <span id="4"></span>
-                    <span id="5"></span>
-                    <span id="6"></span>
-                    <span id="7"></span>
+                    <span id="0">Error in API</span>
+                    <span id="1">Error in API</span>
+                    <span id="2">Error in API</span>
+                    <span id="3">Error in API</span>
+                    <span id="4">Error in API</span>
+                    <span id="5">Error in API</span>
+                    <span id="6">Error in API</span>
+                    <span id="7">Error in API</span>
                 </div>
                 <div class="editButtons">
-                    <button id="edit"><img src="res/edit-svgrepo-com.svg"></button>
+                    <button id="edit" onclick="openModal(0)"><img src="res/edit-svgrepo-com.svg"></button>
                     <button id="edit"><img src="res/edit-svgrepo-com.svg"></button>
                     <button id="edit"><img src="res/edit-svgrepo-com.svg"></button>
                     <button id="edit"><img src="res/edit-svgrepo-com.svg"></button>
@@ -63,6 +63,15 @@
                 </div>
             </div>
         </div>
+
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h2>Digite seu nome:</h2>
+      <input type="text" id="nameInput">
+      <button onclick="submitName()">Enviar</button>
+    </div>
+  </div>
     </main>
     <script src="script.js"></script>
 </body>

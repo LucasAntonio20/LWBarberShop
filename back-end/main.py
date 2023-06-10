@@ -1,8 +1,12 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+from sqlmodel import SQLModel, Session, create_engine, select, Field
 from typing import List, Optional
 from uuid import uuid4
 from fastapi.middleware.cors import CORSMiddleware
+
+DATABASE_URL = "sqlite:///schedules.db"
+engine = create_engine(DATABASE_URL)
 
 app = FastAPI()
 
@@ -17,40 +21,89 @@ app.add_middleware(
 )
 
 
-class Schedule(BaseModel):
-    id: Optional[str]
+class ScheduleBase(BaseModel):
     customer: str
     date: str
+    hour: int
+
+
+class Schedule(ScheduleBase, SQLModel, table=True):
+    id: Optional[str] = Field(default=None, primary_key=True)
+
+
+class EventCreate(ScheduleBase):
+    pass
+
+
+class EventRead(ScheduleBase):
+    id: str
+
+
+class EventUpdate(ScheduleBase):
+    pass
+
+
+def create_db_and_tables():
+    SQLModel.metadata.create_all(engine)
+
+
+@app.on_event("startup")
+def on_startup():
+    create_db_and_tables()
 
 
 schedules: List[Schedule] = []
 
 
-@app.get('/schedules')
+@app.get('/schedules', response_model=List[EventRead])
 def list_schedules():
-    return schedules
+    with Session(engine) as session:
+        schedules = session.exec(select(Schedule)).all()
+        return schedules
 
 
-@app.get('/schedules/')
+@app.get('/schedules/{schedule_date}', response_model=List[EventRead])
 def list_schedules_date(schedule_date: str):
-    schedules_in_day = []
-    for schedule in schedules:
-        if schedule.date == schedule_date:
-            schedules_in_day.append(schedule)
-    return schedules_in_day
+    with Session(engine) as session:
+        return session.exec(select(Schedule).filter(Schedule.date == schedule_date)).all()
 
 
-@app.post('/schedules')
+@app.post('/schedules', response_model=EventRead)
 def create_schedule(schedule: Schedule):
-    schedule.id = str(uuid4())
-    schedules.append(schedule)
-    return None
+    with Session(engine) as session:
+        schedule.id = str(uuid4())
+        db_schedule = Schedule.from_orm(schedule)
+        session.add(db_schedule)
+        session.commit()
+        session.refresh(db_schedule)
+        return db_schedule
+
+
+"""
+@app.put("/schedules/{schedule_id}", response_model=EventRead)
+def update_event(schedule_id: str, name: str):
+    with Session(engine) as session:
+        db_schedule = session.get(Schedule, schedule_id)
+        if not db_schedule:
+            raise HTTPException(status_code=404, detail="Evento não encontrado")
+
+        for key, value in name:
+            if value is not None:
+                setattr(db_schedule, key, value)
+
+        session.add(db_schedule)
+        session.commit()
+        session.refresh(db_schedule)
+        return db_schedule
+"""
 
 
 @app.delete("/schedules/{schedule_id}")
 def delete_schedule(schedule_id: str):
-    for index, a in enumerate(schedules):
-        if a.id == schedule_id:
-            del schedules[index]
-            return {"message": "Agendamento excluído com sucesso"}
-    raise HTTPException(status_code=404, detail="Agendamento não encontrado")
+    with Session(engine) as session:
+        db_schedule = session.get(Schedule, schedule_id)
+        if not db_schedule:
+            raise HTTPException(status_code=404, detail="Evento não encontrado")
+        session.delete(db_schedule)
+        session.commit()
+        return {"result": "Evento excluído"}
