@@ -1,5 +1,7 @@
 var monName = new Array("janeiro", "fevereiro", "março", "abril", "Maio", "junho", "agosto", "outubro", "novembro", "dezembro")
 
+var publicip = 'http://143.198.125.108:8000/schedules/';
+
 var actualDate = new Date();
 var previousDate = new Date(actualDate);
 previousDate.setDate(actualDate.getDate() - 1);
@@ -18,8 +20,6 @@ function updateDates() {
     document.getElementById('actualDayMonth').innerHTML = monName[actualDate.getMonth()];
     document.getElementById("nextDay").innerHTML = nextDate.getDate();
     document.getElementById('nextDayMonth').innerHTML = monName[nextDate.getMonth()];
-    getScheduleByDate();
-    refreshTodaySchedulesList();
 }
 
 function refreshTodaySchedulesList() {
@@ -40,6 +40,8 @@ function goPreviousDate() {
     nextDate = new Date(actualDate);
     nextDate.setDate(actualDate.getDate() + 1);
     updateDates();
+    getScheduleByDate();
+    refreshTodaySchedulesList();
 }
 
 function goNextDate() {
@@ -49,6 +51,8 @@ function goNextDate() {
     nextDate = new Date(actualDate);
     nextDate.setDate(actualDate.getDate() + 1);
     updateDates();
+    getScheduleByDate();
+    refreshTodaySchedulesList();
 }
 
 function getListToday(list) {
@@ -147,7 +151,7 @@ function getScheduleByDate() {
     let year = actualDate.getFullYear().toString();
 
 
-    let url = 'http://127.0.0.1:8000/schedules/' + day + month + year;
+    let url = publicip + day + month + year;
 
     axios.get(url)
         .then(response => {
@@ -175,9 +179,9 @@ function addSchedule(name) {
         customer: name,
         date: day + month + year + '',
         hour: hour
-      }
+    }
 
-    axios.post('http://127.0.0.1:8000/schedules', schedule)
+    axios.post(publicip, schedule)
       .then(response => {
         alert("Cliente " + name + " foi adicionado com sucesso!");
       })
@@ -188,7 +192,7 @@ function addSchedule(name) {
 }
 
 function deleteSchedule(position) {
-    axios.delete('http://127.0.0.1:8000/schedules/' + actualDaySchedules[position].id)
+    axios.delete(publicip + actualDaySchedules[position].id)
   .then(x => { 
     alert("O cliente foi removido com sucesso!");
     getScheduleByDate();
@@ -200,4 +204,6 @@ function deleteSchedule(position) {
 function app() {
     updateDates();
     getScheduleByDate();
+    actualDaySchedules = [null, null, null, null, null, null, null, null];
+    refreshTodaySchedulesList();
 }
