@@ -66,10 +66,11 @@
 
   <div id="myModal" class="modal">
     <div class="modal-content">
-      <span class="close" onclick="closeModal()">&times;</span>
-      <h2>Digite seu nome:</h2>
-      <input type="text" id="nameInput">
-      <button onclick="submitName()">Enviar</button>
+      <span class="close" onclick="closeModal()" id="close">&times;</span>
+      <label for="nameInput">Digite seu nome</label>
+      <input type="text" id="nameInput" class="modal-input">
+      <button onclick="submitName()" class="send modal-button">Enviar</button>
+
     </div>
   </div>
     </main>
