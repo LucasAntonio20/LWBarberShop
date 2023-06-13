@@ -11,6 +11,9 @@ var monName = new Array(
   "dezembro"
 );
 
+var date2 = new Date();
+date2.setDate(date2.getDate() - 1);
+
 var publicip = "http://143.198.125.108:8000/schedules/";
 
 var actualDate = new Date();
@@ -26,14 +29,17 @@ app();
 
 function updateDates() {
   document.getElementById("previousDay").innerHTML = previousDate.getDate();
-  document.getElementById("previousDayMonth").innerHTML =
-    monName[previousDate.getMonth()];
+  document.getElementById("previousDayMonth").innerHTML = monName[previousDate.getMonth()];
   document.getElementById("actualDay").innerHTML = actualDate.getDate();
-  document.getElementById("actualDayMonth").innerHTML =
-    monName[actualDate.getMonth()];
+  document.getElementById("actualDayMonth").innerHTML = monName[actualDate.getMonth()];
   document.getElementById("nextDay").innerHTML = nextDate.getDate();
-  document.getElementById("nextDayMonth").innerHTML =
-    monName[nextDate.getMonth()];
+  document.getElementById("nextDayMonth").innerHTML = monName[nextDate.getMonth()];
+
+  if (previousDate.getTime() === date2.getTime()) document.getElementById("arrowUp").style.display = "none";
+  else document.getElementById("arrowUp").style.display = "inline-block";
+  
+  getScheduleByDate();
+  refreshTodaySchedulesList();
 }
 
 function refreshTodaySchedulesList() {
@@ -48,24 +54,12 @@ function refreshTodaySchedulesList() {
 }
 
 function goPreviousDate() {
-  var today = new Date();
-  today.setHours(0, 0, 0, 0);
-  var newPreviousDate = new Date(previousDate);
-  newPreviousDate.setDate(previousDate.getDate() - 1);
-
-  // Verificar se a nova data é anterior ao dia atual
-  if (newPreviousDate <= today) {
-    // Se for, sair da função e não mudar a data
-    return;
-  }
-
   actualDate = previousDate;
-  previousDate = newPreviousDate;
+  previousDate = new Date(actualDate);
+  previousDate.setDate(actualDate.getDate() - 1);
   nextDate = new Date(actualDate);
   nextDate.setDate(actualDate.getDate() + 1);
   updateDates();
-  getScheduleByDate();
-  refreshTodaySchedulesList();
 }
 
 function goNextDate() {
@@ -75,8 +69,6 @@ function goNextDate() {
   nextDate = new Date(actualDate);
   nextDate.setDate(actualDate.getDate() + 1);
   updateDates();
-  getScheduleByDate();
-  refreshTodaySchedulesList();
 }
 
 function getListToday(list) {

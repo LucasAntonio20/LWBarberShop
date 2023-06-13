@@ -41,7 +41,7 @@ body {
 .actualDay {
   background-color: #798097;
   height: 5rem;
-  color: #ffffff;
+  color: #e5eef6;
   border-radius: 10px 0 0 10px;
   display: flex;
   align-items: center;
@@ -65,7 +65,7 @@ body {
   width: 60%;
   height: 90%;
   background-color: #798097;
-  color: #ffffff;
+  color: #e5eef6;
   font-size: 1.7rem;
   justify-content: space-around;
   border-radius: 10px;
